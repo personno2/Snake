@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,7 +24,10 @@ namespace Snake
 
 		private void startButton_Click(object sender, EventArgs e)
 		{
-			game = new Game(10, pictureBox1);
+			Debug.WriteLine(3);
+
+			game = new Game(20, pictureBox1);
+
 		}
 	}
 }

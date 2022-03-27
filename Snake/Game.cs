@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SkiaSharp;
+using System.Diagnostics;
+
 
 
 
@@ -21,6 +23,8 @@ public class Game
 	private Tuple<int, int> apple;
 
 	private int size;
+	private int squareSize = 50;
+	private int squareMargin = 2;
 	
 	private PictureBox pictureBox1; 
 
@@ -28,6 +32,8 @@ public class Game
 	public Game(int size, PictureBox p)
 	{
 		pictureBox1 = p;
+		//pictureBox1.Size.Width. = squareSize * size;
+		//pictureBox1.Size.Height = squareSize * size;
 
 		this.size = size;
 
@@ -44,16 +50,17 @@ public class Game
 			}
 		}
 
-		for (int i = 0; i < 3; i++)
+		for (int i = 3; i > 0; i--)
 		{
 			snake.Enqueue(new Tuple<int, int>(mid - i, mid));
 			freeSpaces.Remove(Tuple.Create(mid - 1, mid));
 		}
+		Debug.WriteLine(2);
 
 		GameLoop();
 	}
 
-	private void GameLoop()
+	private async void GameLoop()
 	{
 		Random r = new Random();
 
@@ -66,24 +73,26 @@ public class Game
 			snake.Enqueue(snakeHead);
 			freeSpaces.Remove(snakeHead);
 
-			Console.WriteLine(snakeHead);
-			Console.WriteLine(apple);
+			Debug.WriteLine(snakeHead);
+			Debug.WriteLine(apple);
 			if (snakeHead == apple)
 			{
 				apple = freeSpaces[r.Next(freeSpaces.Count)];
-				Console.WriteLine(1);
+				Debug.WriteLine(1);
 			}
 			else
 			{
 				freeSpaces.Add(snake.Dequeue());
 			}
 
+			Draw();
+			await Task.Delay(1000);
 		}
 	}
 
 	private void Draw(bool lost = false)
 	{
-		SKImageInfo imageInfo = new SKImageInfo(300, 250);
+		SKImageInfo imageInfo = new SKImageInfo(size * squareSize, size * squareSize);
 		using (SKSurface surface = SKSurface.Create(imageInfo))
 		{
 			SKCanvas canvas = surface.Canvas;
@@ -96,13 +105,24 @@ public class Game
 			else
 			{
 				using SKPaint paintApple = new SKPaint(),
-				paintSnake = new SKPaint();
-				paintApple.Color = SKColors.Blue;
+							  paintSnake = new SKPaint();
+				
+				paintApple.Color = SKColors.Red;
 				paintApple.IsAntialias = true;
 				paintApple.Style = SKPaintStyle.Fill;
-				canvas.DrawCircle(50, 50, 30, paintApple); //arguments are x position, y position, radius, and paint
-			}
 
+				paintSnake.Color = SKColors.Green;
+				paintSnake.IsAntialias = true;
+				paintSnake.Style = SKPaintStyle.Fill;
+
+				Debug.WriteLine(squareSize * apple.Item1 + ", " + squareSize* apple.Item2 + ", " + (squareSize / 2 - squareMargin));
+				canvas.DrawCircle(squareSize * apple.Item1, squareSize * apple.Item2, squareSize / 2 - squareMargin, paintApple); //arguments are x position, y position, radius, and paint
+
+				foreach (Tuple<int, int> s in snake)
+                {
+					canvas.DrawRect(s.Item1 * squareSize - squareSize / 2, s.Item2 * squareSize - squareSize / 2, squareSize - 2 * squareMargin, squareSize - 2 * squareMargin, paintSnake);
+                }
+			}
 
 			using (SKImage image = surface.Snapshot())
 			using (SKData data = image.Encode(SKEncodedImageFormat.Png, 100))

@@ -36,17 +36,19 @@ namespace Snake
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(12, 12);
+            this.pictureBox1.Location = new System.Drawing.Point(727, 330);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(500, 500);
+            this.pictureBox1.Size = new System.Drawing.Size(1089, 999);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
             // startButton
             // 
-            this.startButton.Location = new System.Drawing.Point(519, 13);
+            this.startButton.Location = new System.Drawing.Point(778, 20);
+            this.startButton.Margin = new System.Windows.Forms.Padding(4);
             this.startButton.Name = "startButton";
-            this.startButton.Size = new System.Drawing.Size(94, 29);
+            this.startButton.Size = new System.Drawing.Size(141, 44);
             this.startButton.TabIndex = 0;
             this.startButton.Text = "Start";
             this.startButton.UseVisualStyleBackColor = true;
@@ -54,11 +56,12 @@ namespace Snake
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(874, 524);
+            this.ClientSize = new System.Drawing.Size(2108, 1524);
             this.Controls.Add(this.startButton);
             this.Controls.Add(this.pictureBox1);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
